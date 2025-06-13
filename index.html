@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirigiendo...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            color: #333;
+        }
+        p {
+            font-size: 1.2em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #003366;
+        }
+    </style>
+    <script>
+        function abrirEnlace() {
+            // Obtener el parámetro "form" de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const formId = urlParams.get('form') || '1'; // Por defecto, usa el formulario 1 si no hay parámetro
+
+            // Definir los enlaces de MediaFire según el formulario
+            const mediaFireLinks = {
+                '1': 'https://www.mediafire.com/folder/nq6o3e1ak3pbe/GUIFORMAT', // GUIFORMAT
+                '2': 'https://www.mediafire.com/folder/wk4sdkt7721nr/H2TESTW', // H2TESTW
+                '3': 'https://www.mediafire.com/folder/cz7onqvq127s8/HDDLLF', // HDDLLF
+                '4': 'https://www.mediafire.com/folder/8ogmifi13v5gv/RMP', // RMP
+                '100': '' // Empty
+            };
+
+            // Seleccionar el enlace de MediaFire según el formulario
+            const mediaFireUrl = mediaFireLinks[formId] || mediaFireLinks['1'];
+
+            // Abrir la pestaña de MediaFire
+            let mediaFireWindow = null;
+
+            try {
+                mediaFireWindow = window.open(mediaFireUrl, '_blank');
+
+                // Verificar si la pestaña se abrió después de un retraso
+                setTimeout(function() {
+                    // Verificar si la pestaña se abrió (si es null o está cerrada, el bloqueador impidió la apertura)
+                    if (!mediaFireWindow || mediaFireWindow.closed) {
+                        document.body.innerHTML = `
+                            <p></p>
+                            <p>No se pudo abrir automáticamente. Haz clic <a href="${mediaFireUrl}" target="_blank">aquí</a> para abrir manualmente.</p>
+                            <p></p>
+                        `;
+                    } else {
+                        document.body.innerHTML = "<p>Redirección completa. Por favor, cierra esta pestaña manualmente.</p>";
+                    }
+                }, 1000); // Retraso de 1 segundo para mayor compatibilidad
+            } catch (e) {
+                console.error('Error al abrir la ventana de MediaFire:', e);
+                document.body.innerHTML = `
+                    <p></p>
+                    <p> No se pudo abrir automáticamente. Haz clic <a href="${mediaFireUrl}" target="_blank">aquí</a> para abrir manualmente.</p>
+                    <p></p>
+                `;
+            }
+        }
+
+        // Ejecutar al cargar la página
+        window.onload = abrirEnlace;
+    </script>
+</head>
+<body>
+    <p>Redirigiendo... Si la pestaña no se abre, desactiva el bloqueador de pop-ups o haz clic en el enlace que aparecerá.</p>
+</body>
+</html>
